@@ -1,8 +1,11 @@
 import useUserStore from "@/store/user";
-import request from "@/utils/request";
+import { service } from "@/utils/request";
+import config from "@/config";
+
+const userStore = useUserStore();
 
 export default data => {
-  const userStore = useUserStore();
+  const request = service(config);
   return request({
     ...data,
     headers: {

@@ -1,11 +1,5 @@
 import axios from "axios";
 import errorCode from "@/const/errorCode";
-import config from "@/config";
-import useCommonStore from "@/store/common";
-import useUserStore from "@/store/user";
-
-const commonStore = useCommonStore();
-const userStore = useUserStore();
 
 /**
  * 初始化并获得 axios 请求实例
@@ -14,7 +8,7 @@ const userStore = useUserStore();
  * @param {string} [options.token] 凭证
  * @returns Promise 请求实例
  */
-const service = options => {
+export const service = options => {
   const request = axios.create({
     baseURL: options.TEMP_BASE_URL || options.baseURL || "/api",
     method: "post",
@@ -26,10 +20,7 @@ const service = options => {
   // 请求拦截
   request.interceptors.request.use(
     httpConfig => {
-      // ----- 配置 token -----
-      if (!httpConfig.headers.Authorization) {
-        httpConfig.headers.Authorization = userStore.getToken;
-      }
+      // 请求拦截逻辑
       return httpConfig;
     },
     error => {
@@ -43,6 +34,10 @@ const service = options => {
       const { status: statusCode, data: responseData } = response;
       let errMsg = "";
       if (statusCode === 200) {
+        if (response.config.responseType === "blob") {
+          // 配置了 blob，不处理直接返回整个响应对象
+          return response;
+        }
         if (responseData.code !== 0) {
           errMsg = responseData.msg;
         }
@@ -66,8 +61,3 @@ const service = options => {
 
   return request;
 };
-
-// 初始化请求实例
-const request = service(config);
-commonStore.setReq(request);
-export default request;

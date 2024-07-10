@@ -1,5 +1,5 @@
 {
-  "name": "aaaxxxaaaxxx",
+  "name": "XXXAAAXXX",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@opentiny/vue": "^3.17.0",
     "axios": "^1.7.2",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",

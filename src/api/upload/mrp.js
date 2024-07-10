@@ -1,3 +1,6 @@
+/**
+ * 测试
+ */
 import request from "@/api/index";
 
 const basePath = `/dict`;
@@ -11,8 +14,8 @@ export default {
   page(data) {
     return request({
       url: `${basePath}/search-all`,
-      method: 'get',
-      data,
+      method: "get",
+      data
     });
   }
 };
